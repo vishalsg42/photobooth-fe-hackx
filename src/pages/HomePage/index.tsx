@@ -1,25 +1,33 @@
-import AppLogo from '@/assets/images/logo.png';
-import styles from './style.module.scss';
-import Image from '@/components/atoms/Image';
-import Container from '@/components/atoms/Container';
-import { Link } from 'react-router-dom';
-import classNames from 'classnames';
+import AppLogo from "../../assets/images/logo.png";
+import "./style.css";
+import Image from "../../components/Image";
 
 const HomePage = () => {
   return (
-    <Container className={styles.root}>
-      <Image className={styles.image} src={AppLogo} alt={'logo'} />
-      <div className={classNames(styles.slogan, 'has-text-weight-bold')}>
-        HackX Photobooth
+    <div
+      style={{
+        textAlign: "center",
+        display: "flex",
+        marginTop: "auto",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      <div className='app-logo'>
+        <Image src={AppLogo} alt={"logo"} />
       </div>
-      <Link
-        to='/booth'
+      <h1>EVENT TITLE</h1>
+      <p>YOUR SLOGAN HERE</p>
+      <a
+        href='/booth'
         title={`Let's Start`}
         className='rounded-btn gradient-btn'
       >
         Let's Start
-      </Link>
-    </Container>
+      </a>
+    </div>
   );
 };
 

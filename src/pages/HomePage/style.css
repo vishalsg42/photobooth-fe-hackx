@@ -1,32 +1,29 @@
 .app-logo {
-    width: 200px;
-    height: 100px;
-    margin: 40px auto;
-    text-align: center;
+  width: 200px;
+  height: 100px;
+  margin: 40px auto;
+  text-align: center;
 }
 
 .home-page h1 {
-    color: rgb(239, 239, 239);
-    font-family: 'serif';
-    font-size: 34px;
-    text-align: center;
-    font-weight: 800;
-    margin: 40px 0 20px;
-    width: 100%;
+  color: rgb(239, 239, 239);
+  font-family: "serif";
+  font-size: 34px;
+  text-align: center;
+  font-weight: 800;
+  margin: 40px 0 20px;
+  width: 100%;
 }
 
 .home-page p {
-    width: 100%;
-    color: rgb(239, 239, 239);
-    font-family: 'Cabin';
-    font-size: 18px;
-    text-align: center;
-    font-weight: 800;
+  width: 100%;
+  color: rgb(239, 239, 239);
+  font-family: "Cabin";
+  font-size: 18px;
+  text-align: center;
+  font-weight: 800;
 }
 
 .home-page a {
-    color: #fff;
+  color: #fff;
 }
-
-
-/* .app-logo */

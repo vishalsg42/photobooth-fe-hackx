@@ -1,18 +1,13 @@
-import CountDownTimer from '../CountdownTimer';
-import { css } from '@emotion/react';
+import CountDownTimer from "../CountdownTimer";
+import { css } from "@emotion/react";
 
-import GridLoader from 'react-spinners/ScaleLoader';
-import cn from 'classnames';
-import useBooth from '@/hooks/useBooth';
-
-import Buttons from './Buttons';
-import CameraSwitch from './CameraSwitch';
-
-import styles from './style.module.scss';
-import './style.scss';
-import SocialLinks from './SocailLinks';
-import frameUrls from '@/utility/frameUrl';
-import { useEffect } from 'react';
+import GridLoader from "react-spinners/GridLoader";
+import cn from "classnames";
+import useBooth from "../../hooks/useBooth";
+import { FlashDiv } from "./style";
+import Image from "../Image";
+import camIcon from "../../assets/images/camera.png";
+import Buttons from "./Buttons";
 
 const CameraBox = () => {
   const [
@@ -28,61 +23,65 @@ const CameraBox = () => {
       clickingPicture,
       frontFacingEnabled,
     },
-    { handleFetchFrames, loadFrameWithCamera },
+    { switchStream },
   ]: any = useBooth();
-
-  useEffect(() => {
-    handleFetchFrames().then(() => {
-      loadFrameWithCamera(frameUrls[0]);
-    });
-    // eslint-disable-next-line
-  }, []);
 
   return (
     <>
       <GridLoader
-        color={'#fff'}
+        color={"#fff"}
         loading={isLoading}
-        height={90}
-        width={10}
-        speedMultiplier={1.5}
-        margin={5}
+        size={80}
         css={css`
           margin: auto;
           position: absolute;
           transform: translate(-50%, -50%);
           left: 50%;
-          top: calc(50% - 50px);
+          top: 50%;
         `}
       />
-      <div className={cn(isLoading && styles.loading)}>
-        <div ref={mediaBoxEle} className={styles['media-box']}>
-          <CameraSwitch />
-
-          <div className={cn(styles.display, !imageURL.length && styles.show)}>
+      <div
+        className={cn({
+          loading: isLoading,
+        })}
+      >
+        <div className='switch-box-container'>
+          <Image
+            className='switch'
+            src={camIcon}
+            alt={"switch"}
+            title={"Switch"}
+            onClick={switchStream}
+          />
+        </div>
+        <div ref={mediaBoxEle} className='media-box'>
+          <div style={{ display: imageURL.length ? "none" : "block" }}>
             <video
-              className={cn(styles['video-image'], {
+              className={cn({
                 front: frontFacingEnabled,
               })}
               autoPlay={true}
               ref={videoEle}
             ></video>
-            <img className={styles['video-image']} ref={imageFrame} alt='' />
+            <img className='video-image' ref={imageFrame} alt='' />
             {clickingPicture && <CountDownTimer totalTimer={3} />}
           </div>
 
-          <img
-            className={cn(styles.display, !!imageURL.length && styles.show)}
-            src={imageURL}
-            ref={imageEle}
-            alt='selfie'
-          />
+          <FlashDiv>
+            <img
+              style={{ display: !imageURL.length ? "none" : "block" }}
+              src={imageURL}
+              ref={imageEle}
+              alt='selfie'
+              className='cam-image'
+            />
+          </FlashDiv>
         </div>
+
+        <Buttons />
 
         <canvas ref={canvasEle}></canvas>
         <canvas ref={frameCanvasEle}></canvas>
-        <Buttons />
-        <SocialLinks />
       </div>
     </>
   );

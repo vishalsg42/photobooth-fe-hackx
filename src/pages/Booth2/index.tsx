@@ -1,12 +1,15 @@
-import CameraBox from '../../components/CameraBox';
-import Frames from '../../components/Frames';
+import CameraBox from "../../components/CameraBox";
+import Frames from "../../components/Frames";
+import { BoothContextProvider } from "../../context/boothcontext";
 
 const BoothPage = () => {
   return (
-    <div className='page'>
-      <CameraBox />
-      <Frames />
-    </div>
+    <BoothContextProvider>
+      <div className='page'>
+        <CameraBox />
+        <Frames />
+      </div>
+    </BoothContextProvider>
   );
 };
 

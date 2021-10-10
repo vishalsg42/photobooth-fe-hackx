@@ -1,18 +1,23 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
+import appContext, { AppContextProvider } from "./context";
+import { useContext } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 
-import './App.css';
-import BoothPage from './pages/BoothScreen';
-// import HomePage from './pages/HomePage';
+import "./App.css";
+import Routes from "./routes";
+import { ToastProvider } from "react-toast-notifications";
 
 const App = () => {
+  const context = useContext(appContext);
+
   return (
-    // <HomePage />
-    <>
-      <div className="container-fluid px-0 page">
-        <BoothPage />
-      </div>
-    </>
+    <ToastProvider>
+      <AppContextProvider value={context}>
+        <Router>
+          <Routes />
+        </Router>
+      </AppContextProvider>
+    </ToastProvider>
   );
-}
+};
 
 export default App;

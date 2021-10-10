@@ -1,38 +1,38 @@
 export const getBase64 = (file: File) => {
-  return new Promise((resolve, reject) => {
-    try {
-      let result: any = null;
-      let reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = function () {
-        result = reader.result;
-        resolve(result);
-      };
-      reader.onerror = function (error) {
-        console.log('Error: ', error);
-        reject(error);
-      };
-    } catch (error) {
-      reject(error);
-    }
-  });
+	return new Promise((resolve, reject) => {
+		try {
+			let result: any = null;
+			let reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onload = function() {
+				result = reader.result;
+				resolve(result);
+			};
+			reader.onerror = function(error) {
+				console.log('Error: ', error);
+				reject(error);
+			};
+		} catch (error) {
+			reject(error);
+		}
+	});
 };
 
 export const getAspectRatio = (
-  image: HTMLImageElement,
-  {
-    width = 0,
-    height = 0,
-  }: {
-    width?: number;
-    height?: number;
-  }
+	image: HTMLImageElement,
+	{
+		width = 0,
+		height = 0
+	}: {
+		width?: number;
+		height?: number;
+	}
 ) => {
-  return new Promise((resolve, reject) => {
-    try {
-      const newImage = new Image();
-      newImage.src = image.src;
-      let ratio = 1;
+	return new Promise((resolve, reject) => {
+		try {
+			const newImage = new Image();
+			newImage.src = image.src;
+			let ratio = 1;
 
       newImage.onload = () => {
         const { naturalWidth, naturalHeight } = newImage;
@@ -51,13 +51,13 @@ export const getAspectRatio = (
           });
         } else {
           reject({
-            message: 'Unable to get values',
+            message: "Unable to get values",
           });
         }
       };
       newImage.onerror = reject;
     } catch (e) {
-      console.log('e', e);
+      console.log("e", e);
       reject({
         message: e,
       });
@@ -65,26 +65,16 @@ export const getAspectRatio = (
   });
 };
 
-// Access-Control-Allow-Origin
-
-export const convertToBase64ByUrl = (url: string): Promise<any> => {
+export const convertToBase64ByUrl = (url: string): Promise<string> => {
   return new Promise(async (resolve, reject) => {
     try {
-      console.log('url', url);
-      let blob = await fetch(url, {
-        // mode: 'no-cors',
-      }).then((e) => e.blob());
-
-      if (blob.size) {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result as string);
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-      } else {
-        reject('Invalid Blob');
-      }
+      let blob = await fetch(url).then((e) => e.blob());
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
     } catch (error) {
-      console.log('error', error);
+      console.log("error", error);
       reject(error);
     }
   });
@@ -95,15 +85,15 @@ export const loadFile = (url: string) => {
     try {
       let response = await fetch(url, {
         headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
+          "Content-Type": "application/json",
+          Accept: "application/json",
         },
       })
         .then((d) => d.json())
         .catch((e) => reject(e));
       resolve(response);
     } catch (error) {
-      console.log('error', error);
+      console.log("error", error);
       reject(error);
     }
   });
@@ -117,10 +107,10 @@ export function blobCreationFromURL(inputURI: string) {
   // var inputMIME = inputURI.split(",")[0].split(":")[1].split(";")[0];
 
   // Extract remaining part of URL and convert it to binary value
-  if (inputURI.split(',')[0].indexOf('base64') >= 0)
-    binaryVal = atob(inputURI.split(',')[1]);
+  if (inputURI.split(",")[0].indexOf("base64") >= 0)
+    binaryVal = atob(inputURI.split(",")[1]);
   // Decoding of base64 encoded string
-  else binaryVal = unescape(inputURI.split(',')[1]);
+  else binaryVal = unescape(inputURI.split(",")[1]);
 
   // Computation of new string in which hexadecimal
   // escape sequences are replaced by the character
@@ -133,7 +123,7 @@ export function blobCreationFromURL(inputURI: string) {
   }
 
   return new Blob([blobArray], {
-    type: 'image/png',
+    type: "image/png",
   });
 }
 

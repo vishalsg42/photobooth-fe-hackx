@@ -5,7 +5,7 @@ import Swiper from 'react-id-swiper';
 // import { Swiper, SwiperSlide } from 'swiper/react';
 // import Swiper from 'react-id-swiper';
 // import { loadFile } from "../../utility/helper";
-import { Image } from 'react-bootstrap';
+// import { Image } from 'react-bootstrap';
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
 // import 'swiper/components/pagination/pagination.scss';
@@ -14,7 +14,7 @@ import './style.scss';
 SwiperCore.use([Navigation, Lazy, Thumbs])
 
 const ReelSlider = () => {
-    const slides = [];
+    const slides: any = [];
     const d = [
         'https://i.ibb.co/GWVz9Dk/frame-1.png',
         'https://i.ibb.co/6JZ18YQ/frames-2.png',
@@ -32,11 +32,11 @@ const ReelSlider = () => {
     for (let index = 0; index < 10; index++) {
         slides.push(
     //         <SwiperSlide tag="li" key={index}>
-                <div className="slider-item" key={index}>
-                    {/* https://picsum.photos/id/${index + 1}/1600/500 */}
-                    <Image key={index} src={d[index]}
-                        alt={`Slise ${index}`} />
-                </div>
+                // <div className="slider-item" key={index}>
+                //     {/* https://picsum.photos/id/${index + 1}/1600/500 */}
+                //     <Image key={index} src={d[index]}
+                //         alt={`Slise ${index}`} />
+                // </div>
 
     //         </SwiperSlide>
         )

@@ -1,11 +1,11 @@
-import { useCallback } from 'react';
-import { createContext, useEffect, useMemo, useState } from 'react';
-import { useToasts } from 'react-toast-notifications';
-import useCamera from '@/hooks/useCamera';
-import useFetch from '@/hooks/useFetch';
-import { cameraServices } from '@/services/camera';
-import frameUrls from '@/utility/frameUrl';
-import { srcToFile } from '@/utility/helper';
+import { useCallback } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
+import { useToasts } from "react-toast-notifications";
+import useCamera from "../hooks/useCamera";
+import useFetch from "../hooks/useFetch";
+import { cameraServices } from "../services/camera";
+import frameUrls from "../utility/frameUrl";
+import { srcToFile } from "../utility/helper";
 
 export interface BoothContextState {
   frameUrl?: string;
@@ -18,7 +18,7 @@ export interface BoothContextAPI {
 }
 
 const boothContext = createContext<[BoothContextState, BoothContextAPI]>([
-  { frameUrl: '' },
+  { frameUrl: "" },
   {},
 ]);
 
@@ -31,8 +31,6 @@ export const BoothContextProvider = ({ children }: any) => {
   const { addToast } = useToasts();
   const [frameUrl, setFrameUrl] = useState(frameUrls[0]);
   const [isLoading, setLoader] = useState(true);
-  const [isActiveSocialLinks, setSocialLinksActive] = useState(false);
-
   const [cameraValue, cameraApi]: any = useCamera();
   const cameraState = useMemo(() => cameraValue, [cameraValue]);
   const { imageEle } = cameraState;
@@ -56,63 +54,52 @@ export const BoothContextProvider = ({ children }: any) => {
   const { loadFrame, startCamera } = cameraApi;
 
   const loadFrameWithCamera = useCallback(
-    async (url = '') => {
+    async (url = "") => {
       try {
         setLoader(true);
         const { ratio } = await loadFrame(url);
         if (ratio) await startCamera({ ratio });
         setLoader(false);
       } catch (e) {
-        console.log('Load Frame And Camera Error', e);
+        console.log("Load Frame And Camera Error", e);
         setLoader(false);
-
-        const message =
-          e.message === 'Permission denied'
-            ? `${e.message}. Please allow camera access.`
-            : e.message;
-        addToast(message || 'Something went wrong while loading camera', {
-          appearance: 'error',
-          autoDismiss: true,
-        });
       }
     },
-    // eslint-disable-next-line
     [loadFrame, startCamera]
   );
 
   const handleFileUpload = useCallback(
-    async ({ frameId = 1, email = '' }) => {
+    async ({ frameId = 1 }) => {
       try {
-        let mainImage: any = '',
-          framedImage: any = '';
+        let mainImage: any = "",
+          framedImage: any = "";
         if (imageEle?.current?.src) {
           mainImage = await srcToFile(
             imageEle.current.src,
-            'mainImage.png',
-            'image/png'
+            "mainImage.png",
+            "image/png"
           );
         }
 
         if (imageEle?.current?.src) {
           framedImage = await srcToFile(
             imageEle.current.src,
-            'frameImage.png',
-            'image/png'
+            "frameImage.png",
+            "image/png"
           );
         }
 
         const payload = new FormData();
-        const clientCode = '019cbadff1637';
+        const clientCode = "019cbadff1637";
 
-        payload.append('mainImage', mainImage);
-        payload.append('framedImage', framedImage);
-        payload.append('clientCode', clientCode);
-        payload.append('frameId', frameId);
-        payload.append('email', email);
+        payload.append("mainImage", mainImage);
+        payload.append("framedImage", framedImage);
+        payload.append("clientCode", clientCode);
+        payload.append("frameId", frameId);
 
         await uploadFile({ payload });
       } catch (e) {
-        console.log('Error', e);
+        console.log("Error", e);
       }
     },
     [uploadFile, imageEle]
@@ -122,7 +109,7 @@ export const BoothContextProvider = ({ children }: any) => {
     try {
       await fetchFrames();
     } catch (e) {
-      console.log('Error', e);
+      console.log("Error", e);
     }
   }, [fetchFrames]);
 
@@ -143,37 +130,28 @@ export const BoothContextProvider = ({ children }: any) => {
       uploadFileData,
       framesData,
       error,
-      isActiveSocialLinks,
       ...cameraState,
     }),
-    [
-      error,
-      cameraState,
-      frameUrl,
-      loadingActive,
-      uploadFileData,
-      framesData,
-      isActiveSocialLinks,
-    ]
+    [error, cameraState, frameUrl, loadingActive, uploadFileData, framesData]
   );
 
   useEffect(() => {
-    let message = '';
-    if (typeof error === 'object') {
+    let message = "";
+    if (typeof error === "object") {
       message = error?.message;
-    } else if (typeof error == 'string') {
+    } else if (typeof error == "string") {
       message = error;
     }
 
-    if (message) addToast(message, { appearance: 'error', autoDismiss: true });
+    if (message) addToast(message, { appearance: "error", autoDismiss: true });
   }, [error, addToast]);
 
-  // useEffect(() => {
-  //   fetchFrames().then(() => {
-  //     loadFrameWithCamera(frameUrls[0]);
-  //   });
-  //   // eslint-disable-next-line
-  // }, []);
+  useEffect(() => {
+    fetchFrames().then(() => {
+      loadFrameWithCamera(frameUrls[0]);
+    });
+    // eslint-disable-next-line
+  }, []);
 
   const value = useMemo(() => {
     return [
@@ -184,7 +162,6 @@ export const BoothContextProvider = ({ children }: any) => {
         loadFrameWithCamera,
         handleFileUpload,
         handleFetchFrames,
-        setSocialLinksActive,
         ...cameraApi,
       },
     ];
@@ -194,7 +171,6 @@ export const BoothContextProvider = ({ children }: any) => {
     loadFrameWithCamera,
     handleFileUpload,
     handleFetchFrames,
-    setSocialLinksActive,
   ]);
 
   return <BoothProvider value={value}>{children}</BoothProvider>;

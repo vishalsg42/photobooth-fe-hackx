@@ -1,52 +1,51 @@
-import Button from '@/components/atoms/Button';
-import Buttons from '@/components/atoms/Button/Buttons';
-import useAppContext from '@/hooks/useApp';
-import useBooth from '@/hooks/useBooth';
-import frameUrls from '@/utility/frameUrl';
+import useBooth from "../../hooks/useBooth";
+import frameUrls from "../../utility/frameUrl";
 
-const ButtonsWrapper = () => {
+const Buttons = () => {
   const [
-    { pictureIsClicked, isActiveSocialLinks },
-    { takeSelfie, setPictureIsClicked, setImageUrl, loadFrameWithCamera },
+    { pictureIsClicked },
+    {
+      takeSelfie,
+      handleFileUpload,
+      setPictureIsClicked,
+      setImageUrl,
+      loadFrameWithCamera,
+    },
   ]: any = useBooth();
 
-  const [, { toggleEmailPopup }]: any = useAppContext();
-
-  if (isActiveSocialLinks) return null;
-
   return (
-    <Buttons className='mt-4 mb-2' align={'centered'}>
+    <div style={{ textAlign: "center", margin: "20px 0 0" }}>
       {!pictureIsClicked ? (
-        <Button
+        <button
+          className='btn rounded-btn gradient-btn'
           onClick={async () => {
             takeSelfie();
           }}
-          className='btn rounded-btn gradient-btn'
         >
-          start
-        </Button>
+          Start
+        </button>
       ) : (
         <>
-          <Button
+          <button
             className='btn rounded-btn gradient-btn'
             onClick={async () => {
-              setImageUrl('');
+              setImageUrl("");
               setPictureIsClicked(false);
               loadFrameWithCamera(frameUrls[0]);
             }}
           >
             Retake
-          </Button>
-          <Button
+          </button>
+          <button
             className='btn rounded-btn gradient-btn'
-            onClick={() => toggleEmailPopup(true)}
+            onClick={() => handleFileUpload({})}
           >
             I like It
-          </Button>
+          </button>
         </>
       )}
-    </Buttons>
+    </div>
   );
 };
 
-export default ButtonsWrapper;
+export default Buttons;

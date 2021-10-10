@@ -1,6 +1,6 @@
 import React, { useEffect, createRef, useState } from 'react';
 import ImageFrame from '../assets/images/frame-1.png';
-import { convertToBase64 } from '../utility/helper';
+import { convertToBase64ByUrl } from '../utility/helper';
 import CountDownTimer from './CountdownTimer';
 
 const webCamConfig = {
@@ -39,7 +39,7 @@ const CameraBox = () => {
 
         const loadFrame = async () => {
             try {
-                let getFrameData = await convertToBase64(ImageFrame);
+                let getFrameData = await convertToBase64ByUrl(ImageFrame);
                 if (imageFrame.current) {
                     imageFrame.current.src = getFrameData;
                 }

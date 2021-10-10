@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from "react";
 
 const useFetch = ({
   immediate = false,
-  url = '',
+  url = "",
   payload = {},
-  method = 'GET',
+  method = "GET",
   headers = {},
 }: any) => {
   const [loading, setLoading]: any = useState(false);

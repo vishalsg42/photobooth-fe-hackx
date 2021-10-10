@@ -1,24 +1,8 @@
-import { useState, useEffect } from 'react';
+import useCounter from "../hooks/useCounter";
 
-const CountDownTimer = ({ totalTimer }: { totalTimer: number }) => {
+const CountdownTimer = ({ totalTimer }: { totalTimer: number }) => {
+  const [counter] = useCounter({ totalTimer });
+  return <div className='counter-box'>{counter}</div>;
+};
 
-    const [counter, setCounter] = useState(totalTimer);
-
-    useEffect(() => {
-        let timer: NodeJS.Timeout;
-        if (counter > 1) {
-            timer = setInterval(() => {
-                setCounter(counter - 1);
-            }, 1000);
-        }
-        return () => clearInterval(timer);
-    }, [counter]);
-
-    return (
-        <>
-            <div className="counter-box">{counter}</div>
-        </>
-    )
-}
-
-export default CountDownTimer;
+export default CountdownTimer;

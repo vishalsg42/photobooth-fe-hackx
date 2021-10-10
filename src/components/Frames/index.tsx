@@ -1,7 +1,7 @@
 import SwiperCore, { Lazy, Thumbs, Pagination, Navigation } from "swiper";
 import Swiper from "react-id-swiper";
 import { useMemo, useState } from "react";
-import Image from "@/components/atoms/Image";
+import Image from "../../components/Image";
 import { params } from "./constants";
 import { FrameSlider, FrameSliderWrapper } from "./style";
 import useBooth from "../../hooks/useBooth";
