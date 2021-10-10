@@ -1,0 +1,6 @@
+// @import 'src/_custom.scss';
+@import '~bulma/sass/elements/icon.sass';
+.control.has-icons-left .icon.has-pointer-events,
+.control.has-icons-right .icon.has-pointer-events {
+  pointer-events: inherit;
+}

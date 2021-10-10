@@ -1,0 +1,9 @@
+.button {
+  border: none;
+  background-color: transparent;
+  border-radius: 0;
+  border-bottom: 2px solid $neev_secondary !important;
+  &:focus {
+    outline: none;
+  }
+}

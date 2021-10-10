@@ -1,25 +1,26 @@
-import { Image } from 'react-bootstrap';
-import AppLogo from '../../assets/images/logo.png';
-import './style.css';
+import AppLogo from '@/assets/images/logo.png';
+import styles from './style.module.scss';
+import Image from '@/components/atoms/Image';
+import Container from '@/components/atoms/Container';
+import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 
 const HomePage = () => {
-    return (
-        <div className="row no-gutters">
-            <div className="max-wrapper d-flex flex-column align-items-start">
-                <div className="app-logo">
-                    <Image src={AppLogo} />
-                </div>
-
-                <h1>EVENT TITLE</h1>
-
-                <p>YOUR SLOGAN HERE</p>
-
-                <a href="#FIXME" title={`Let's Start`} className='rounded-btn gradient-btn'>Let's Start</a>
-            </div>
-
-        </div>
-
-    );
-}
+  return (
+    <Container className={styles.root}>
+      <Image className={styles.image} src={AppLogo} alt={'logo'} />
+      <div className={classNames(styles.slogan, 'has-text-weight-bold')}>
+        HackX Photobooth
+      </div>
+      <Link
+        to='/booth'
+        title={`Let's Start`}
+        className='rounded-btn gradient-btn'
+      >
+        Let's Start
+      </Link>
+    </Container>
+  );
+};
 
 export default HomePage;

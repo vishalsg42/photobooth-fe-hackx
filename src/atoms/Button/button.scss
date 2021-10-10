@@ -1,0 +1,14 @@
+.transparent {
+  $button-ghost-border-color: transparent;
+}
+
+@import '~bulma/sass/elements/button.sass';
+
+.button {
+  height: auto;
+}
+
+// @import 'src/_custom.scss';
+.delete {
+  @extend %delete !optional;
+}

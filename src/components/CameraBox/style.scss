@@ -1,0 +1,40 @@
+// Frame slider next prev button css as this class cannot be handled from modular scss
+.frame-swiper-slider {
+  .swiper-button-prev,
+  .swiper-button-next {
+    color: #fff !important;
+  }
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    font-size: 30px;
+  }
+
+  .swiper-button-next {
+    right: -30px !important;
+  }
+
+  .swiper-button-prev {
+    left: -35px !important;
+  }
+
+  .swiper-slide {
+    cursor: pointer;
+    height: 50px !important;
+    padding: 0 7px;
+    display: flex !important;
+
+    @media screen and (min-width: 400px) {
+      height: 70px !important;
+    }
+
+    @media screen and (min-width: 601px) {
+      height: 80px !important;
+    }
+  }
+}
+
+video.front {
+  -webkit-transform: translateX(0.5%) scaleX(-1);
+  transform: translateX(0.5%) scaleX(-1);
+}

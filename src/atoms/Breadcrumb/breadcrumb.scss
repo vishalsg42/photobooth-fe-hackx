@@ -1,0 +1,6 @@
+// @import 'src/_custom.scss';
+@import '~bulma/sass/components/breadcrumb.sass';
+
+.breadcrumb li {
+  white-space: normal;
+}

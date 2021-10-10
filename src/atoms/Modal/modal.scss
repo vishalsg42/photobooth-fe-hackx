@@ -1,0 +1,34 @@
+@import '~bulma/sass/components/modal.sass';
+
+.modal-container {
+  z-index: 200;
+  position: fixed;
+}
+
+.modal {
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(10, 10, 10, 0.86);
+}
+
+.modal-close {
+  z-index: 10;
+  background-color: rgba($color: #000000, $alpha: 0.3);
+}
+
+.modal-position-relative {
+  position: relative;
+  @include until($tablet) {
+    width: 100%;
+  }
+}
+
+.modal-close-inner {
+  z-index: 10;
+  position: absolute;
+  background-color: rgba($color: #000000, $alpha: 0.6);
+  top: 8px;
+  right: 8px;
+}

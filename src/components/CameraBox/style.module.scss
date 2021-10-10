@@ -1,0 +1,63 @@
+.media-box {
+  position: relative;
+  z-index: 100;
+  max-width: 100%;
+  overflow: hidden;
+  width: 100%;
+  height: calc(100vh - 215px);
+  max-height: calc(100vh - 215px);
+  margin: 10px auto 0;
+
+  video.video-image {
+    height: 100% !important;
+    width: 100% !important;
+  }
+  .video-image {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+  }
+
+  img {
+    position: relative;
+  }
+
+  @media screen and (max-width: 768px) {
+    max-height: 70vh;
+  }
+
+  @media screen and (min-width: 769px) {
+    max-width: 70%;
+  }
+}
+
+.frame-image {
+  position: relative;
+}
+
+.loading {
+  visibility: hidden;
+}
+
+.display {
+  display: none;
+  &.show {
+    display: block;
+  }
+}
+
+.switch {
+  height: 50px;
+  max-width: 60px;
+  position: absolute;
+  top: 10px;
+  right: 0px;
+  z-index: 20;
+  cursor: pointer;
+  img {
+    height: inherit;
+  }
+}

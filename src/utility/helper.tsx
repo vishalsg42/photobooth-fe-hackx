@@ -1,90 +1,143 @@
 export const getBase64 = (file: File) => {
-    return new Promise((resolve, reject) => {
-        try {
-            let result = null;
-            let reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = function () {
-                result = reader.result;
-                resolve(result);
-            };
-            reader.onerror = function (error) {
-                console.log('Error: ', error);
-                reject(error);
-            };
-        } catch (error) {
-            reject(error);
-        }
-    })
-}
-// export const convertToBase64 = (file: string) => {
-//     return new Promise((resolve, reject) => {
-//         try {
-//             let img = new Image();
-//             img.crossOrigin = 'Anonymous';
-//             // const url = URL.createObjectURL(file);
-//             img.src = file;
-
-//             // The magic begins after the image is successfully loaded
-//             img.onload = function () {
-//                 let canvas = document.createElement('canvas');
-//                 let ctx = canvas.getContext('2d');
-//                 if (ctx instanceof CanvasRenderingContext2D) {
-//                     canvas.height = img.naturalHeight;
-//                     canvas.width = img.naturalWidth;
-//                     ctx.drawImage(img, 0, 0);
-
-//                     // Unfortunately, we cannot keep the original image type, so all images will be converted to PNG
-//                     // For this reason, we cannot get the original Base64 string
-//                     let uri = canvas.toDataURL('image/png'),
-//                         b64 = uri.replace(/^data:image.+;base64,/, '');
-
-//                     resolve(b64);
-//                 }
-//             };
-
-//         } catch (error) {
-//             console.log('error', error);
-//         }
-//     })
-
-// }
-
-export const convertToBase64 = (url: string): Promise<string> => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            let response = await fetch(url);
-            let blob = await response.blob();
-            const reader = new FileReader()
-            reader.onloadend = () => resolve(reader.result as string)
-            reader.onerror = reject
-            reader.readAsDataURL(blob);
-            // resolve(reader.readAsDataURL(blob));
-        } catch (error) {
-            console.log('error', error);
-            reject(error);
-        }
-    })
-}
-
-export const loadFile = (url: string) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            let response = await fetch(url, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                }
-            });
-            return response.json();
-        } catch (error) {
-            console.log('error', error);
-        }
-    });
+  return new Promise((resolve, reject) => {
+    try {
+      let result: any = null;
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function () {
+        result = reader.result;
+        resolve(result);
+      };
+      reader.onerror = function (error) {
+        console.log('Error: ', error);
+        reject(error);
+      };
+    } catch (error) {
+      reject(error);
+    }
+  });
 };
 
-export const mergeImage = (baseImage: string, frame: string) => {
-    return new Promise(async (resolve, reject) => {
+export const getAspectRatio = (
+  image: HTMLImageElement,
+  {
+    width = 0,
+    height = 0,
+  }: {
+    width?: number;
+    height?: number;
+  }
+) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const newImage = new Image();
+      newImage.src = image.src;
+      let ratio = 1;
 
-    });
+      newImage.onload = () => {
+        const { naturalWidth, naturalHeight } = newImage;
+        ratio = naturalWidth / naturalHeight;
+        if (naturalWidth && naturalHeight) {
+          if (width && !height) {
+            height = width * ratio;
+          } else if (height && !width) {
+            width = height * ratio;
+          }
+
+          resolve({
+            ratio,
+            height,
+            width,
+          });
+        } else {
+          reject({
+            message: 'Unable to get values',
+          });
+        }
+      };
+      newImage.onerror = reject;
+    } catch (e) {
+      console.log('e', e);
+      reject({
+        message: e,
+      });
+    }
+  });
+};
+
+// Access-Control-Allow-Origin
+
+export const convertToBase64ByUrl = (url: string): Promise<any> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      console.log('url', url);
+      let blob = await fetch(url, {
+        // mode: 'no-cors',
+      }).then((e) => e.blob());
+
+      if (blob.size) {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      } else {
+        reject('Invalid Blob');
+      }
+    } catch (error) {
+      console.log('error', error);
+      reject(error);
+    }
+  });
+};
+
+export const loadFile = (url: string) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let response = await fetch(url, {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+      })
+        .then((d) => d.json())
+        .catch((e) => reject(e));
+      resolve(response);
+    } catch (error) {
+      console.log('error', error);
+      reject(error);
+    }
+  });
+};
+
+// Create Blob file from URL
+export function blobCreationFromURL(inputURI: string) {
+  var binaryVal;
+
+  // mime extension extraction
+  // var inputMIME = inputURI.split(",")[0].split(":")[1].split(";")[0];
+
+  // Extract remaining part of URL and convert it to binary value
+  if (inputURI.split(',')[0].indexOf('base64') >= 0)
+    binaryVal = atob(inputURI.split(',')[1]);
+  // Decoding of base64 encoded string
+  else binaryVal = unescape(inputURI.split(',')[1]);
+
+  // Computation of new string in which hexadecimal
+  // escape sequences are replaced by the character
+  // it represents
+
+  // Store the bytes of the string to a typed array
+  var blobArray: any = [];
+  for (var index = 0; index < binaryVal.length; index++) {
+    blobArray.push(binaryVal.charCodeAt(index));
+  }
+
+  return new Blob([blobArray], {
+    type: 'image/png',
+  });
 }
+
+export const srcToFile = (src: string, fileName: string, mimeType: string) =>
+  fetch(src)
+    .then((res) => res.arrayBuffer())
+    .then((buf) => new File([buf], fileName, { type: mimeType }));
